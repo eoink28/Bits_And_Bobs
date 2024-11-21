@@ -1,0 +1,85 @@
+#include <stdio.h>
+
+#define SIZE 20
+
+int main()
+{
+
+    int array[SIZE] = {0};
+    int option = 0;
+    int uservariables=0;
+    int num1 = 1;
+    int num2 = 0;
+    int temp = 0;
+    int i = 0;
+
+    do
+    {
+        //displays the menu
+        //
+        printf("\nWelcome to the Fibonacci program\n");
+        printf("Enter your selection:\n\n");
+        printf("\nEnter 1 to start program");
+        printf("\nEnter 2 to end program\n");
+
+        //scanning user entered option
+        //
+        scanf("%d",&option);
+
+        //code that will run if user enters 1
+        //
+        if (option==1)
+        {
+            //option for user to enter desired variables
+            //
+            printf("Enter the desired numbers of variables: \n");
+            scanf("%d",&uservariables);
+
+            //algorithm to calculate the fibonaccni series
+            //
+            for ( i = 0; i < uservariables; i++)
+            {
+                
+                temp=num1+num2;
+                num1=num2;
+                num2=temp;
+
+                //enter each value of the array into temp
+                //
+                array[i]=temp;
+
+            }//end for
+
+            //printf to display a message to standard output
+            //
+            printf("\n Your %d numbers are:", uservariables);
+
+            //for loop which prints up to the users entered value
+            //
+            for ( i = 0; i < uservariables; i++)
+            {
+                printf("\n%d\n",array[i]);
+            }
+            
+        }//end if option1
+        //
+
+
+            //exit code that will run if the user enters 2
+            //
+            if (option==2)
+            {
+                printf("Program ended, have a great day!!");
+            }
+            
+        
+        
+    //if user enters 2 the code will exit
+    } while (option!=2);
+    
+    //end program
+    //
+    return 0;
+
+
+}//end main
