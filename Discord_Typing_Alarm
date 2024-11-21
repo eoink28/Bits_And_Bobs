@@ -1,0 +1,39 @@
+import pyautogui
+import time
+import numpy as np
+import winsound
+
+# Screen dimensions
+screen_width, screen_height = pyautogui.size()
+
+# Define the region for the bottom half of the screen
+typing_region = (0, screen_height // 2, screen_width, screen_height // 2)
+
+# Frequency and duration for the beep (loud beep)
+freq = 1000  # Frequency in Hertz
+duration = 500  # Duration in milliseconds
+
+# Function to detect changes in the typing area and beep
+def monitor_typing():
+    typing_detected = False  # To avoid constant beeping
+    while True:
+        # Capture a screenshot of the defined region
+        screenshot = pyautogui.screenshot(region=typing_region)
+        # Convert the image to a numpy array for pixel analysis
+        img_array = np.array(screenshot)
+
+        # Check if there are any non-black pixels (indicating "X is typing...")
+        if np.any(img_array != 0) and not typing_detected:
+            typing_detected = True
+            # Play a loud beep
+            for _ in range(5):  # Repeat the beep to make it more noticeable
+                winsound.Beep(freq, duration)
+                time.sleep(0.2)  # Small delay between beeps
+        elif not np.any(img_array != 0):
+            typing_detected = False  # Reset if no typing is detected
+
+        time.sleep(0.5)  # Wait before the next check
+
+if __name__ == "__main__":
+    print("Monitoring the bottom half of the screen for typing indicator...")
+    monitor_typing()
