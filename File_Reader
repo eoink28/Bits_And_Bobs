@@ -1,0 +1,53 @@
+/*Details: This program is designed to read in and display the text within a file. It should also display a new number on each line from the file
+Author: Eoin Kenny
+Date: 23/04/2024*/
+#include <stdio.h>
+
+//using symbolic names
+//
+#define MAX 100
+
+//main function
+//
+int main()
+{
+
+    //declaring variables
+    //
+    FILE *fp_In;//creating a pointer variable for a file
+    char lines[MAX];
+    int counter = 1;
+
+    //if else loop to interact with the file
+    //
+    if ((fp_In = fopen("text.txt", "r")) == NULL)
+    {
+        //if the file cannot be oppened print an error to Standard output
+        //
+        printf("Error opening file");
+        return 0;
+
+    }
+    else
+    {
+        //while we have not reached the end of the file
+        //
+        while (fgets(lines,MAX,fp_In) != NULL)
+        {
+            //print out the contnets of the file to standard output with a number infront of each number
+            //
+            printf("%d: %s",counter,lines);
+            counter++;
+
+        }
+        
+        //close file
+        //
+        fclose(fp_In);
+    }
+    
+    //end program
+    //
+    return 0;
+
+}
