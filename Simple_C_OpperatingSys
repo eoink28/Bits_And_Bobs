@@ -1,0 +1,132 @@
+/* Details: An operating system in C which combines different parts of our course to practice my C skills.
+    Author: Eoin Kenny
+    Date: February 2024 */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define SIZE 20
+#define PASSWORD 2880
+
+// Function prototypes
+void displayMenu(void);
+void downloads(void);
+void music(void);
+void files(void);
+void photos(void);
+void cFunctions(void);
+
+int main(void)
+{
+    char name[SIZE];
+    int user_input;
+    int choice;
+
+    // Get username
+    printf("Please enter your username: \n");
+    fgets(name, SIZE, stdin);
+    name[strcspn(name, "\n")] = '\0'; // Remove trailing newline
+
+    printf("\n\nWelcome to the system, ");
+    puts(name);
+
+    // Get password
+    printf("\n\nPlease enter your password: \n");
+    scanf("%d", &user_input);
+
+    if (user_input != PASSWORD)
+    {
+        printf("Incorrect password entered. Closing program.\n");
+        return 0;
+    }
+
+    printf("\nWelcome to Kenny's System!!\n\n");
+
+    // Main menu loop
+    do
+    {
+        displayMenu();
+        printf("\nEnter your choice (1-5, 0 to exit): ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+        case 1:
+            downloads();
+            break;
+        case 2:
+            music();
+            break;
+        case 3:
+            files();
+            break;
+        case 4:
+            photos();
+            break;
+        case 5:
+            cFunctions();
+            break;
+        case 0:
+            printf("\nExiting the system. Goodbye, %s!\n", name);
+            break;
+        default:
+            printf("Invalid choice. Please try again.\n");
+        }
+    } while (choice != 0);
+
+    return 0;
+}
+
+// Function to display the main menu
+void displayMenu(void)
+{
+    printf("\n========= MENU =========");
+    printf("\n1. Downloads");
+    printf("\n2. Music");
+    printf("\n3. Files");
+    printf("\n4. Photos");
+    printf("\n5. C Functions");
+    printf("\n0. Exit");
+    printf("\n========================\n");
+}
+
+// Function to simulate Downloads option
+void downloads(void)
+{
+    printf("\nOpening Downloads...\n");
+    printf("You have 5 downloaded files:\n");
+    printf("1. file1.txt\n2. file2.mp3\n3. file3.jpg\n4. file4.pdf\n5. file5.zip\n");
+}
+
+// Function to simulate Music option
+void music(void)
+{
+    printf("\nOpening Music...\n");
+    printf("Now playing: 'Imagine' by John Lennon.\n");
+}
+
+// Function to simulate Files option
+void files(void)
+{
+    printf("\nOpening Files...\n");
+    printf("Available files:\n");
+    printf("1. document.docx\n2. notes.txt\n3. presentation.pptx\n");
+}
+
+// Function to simulate Photos option
+void photos(void)
+{
+    printf("\nOpening Photos...\n");
+    printf("Displaying photo: 'vacation.jpg'.\n");
+}
+
+// Function to simulate C Functions option
+void cFunctions(void)
+{
+    printf("\nOpening C Functions...\n");
+    printf("Sample C Functions:\n");
+    printf("1. int add(int a, int b) { return a + b; }\n");
+    printf("2. void greet() { printf(\"Hello, World!\"); }\n");
+    printf("3. float divide(float x, float y) { return x / y; }\n");
+}
