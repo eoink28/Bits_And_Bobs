@@ -1,0 +1,212 @@
+/*Details: This is a program designed for the Olympics track and field in which the user can enter athlete records for different events. The number of sprinters is unknown and thus will need to be entered once the program is run. This program also checks for the legendary Paddy Jim O'Brien to see if he is competing.
+Author: Eoin Kenny
+Date: 11/05/2024*/
+
+//header files
+//
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+//symbolic names to be used throughout the program
+//
+#define LENGTH 30
+
+//structure for date of birth
+//
+struct Date_of_birth
+{
+    int day;
+    int month;
+    int year;
+};
+
+//structure for crucial athlete data
+//
+struct athlete_data
+{
+    char firstname[LENGTH];
+    char surname[LENGTH];
+    char nationality[LENGTH];
+    char height[LENGTH];
+    char weight[LENGTH];
+    char event[LENGTH];
+    struct Date_of_birth DOB; //nested structure for DOB
+};
+
+//function signatures
+//
+void Enter_Athlete_Data(struct athlete_data *, int participants);
+int paddy_checker(struct athlete_data *, int participants);
+
+int main() //start of main
+{
+    //declaring our variables. option is used to keep the program running while event_option is used to enter the desired event
+    //
+    int option = 0;
+    int event_option = 0;
+
+    //do while loop to keep the program constantly running until the user wishes to end it
+    //
+    do
+    {
+        //printf to ensure the user knows what they are accessing
+        //
+        printf("\nWELCOME TO THE OLYMPICS ATHLETE TRACK AND FIELD RECORDS PAGE!\n");
+
+        //--- used for formatting
+        //
+        printf("\n---------------\n");
+
+        //user option to enter or exit the program
+        //
+        printf("\nPress 1 to enter track and field athlete records or press 2 to exit the program:\n");
+        scanf("%d", &option);
+        getchar(); //clear input buffer
+
+        //if the user enters 1 they will enter the records page
+        //
+        if (option == 1)
+        {
+            //option for user to enter their desired event
+            //
+            printf("Please enter number for the desired events records you would like to access:\n 3 for 100m sprint\n 4 for 100m relay\n 5 for long jump\n");
+            scanf("%d", &event_option);
+            getchar(); //clear input buffer
+
+            //declaring participants and memory allocation for athletes
+            //
+            int participants = 0;
+            struct athlete_data *athletes;
+
+            if (event_option == 3) //if user chooses 3
+            {
+                //printf to let the user know they are in the 100m sprint records
+                //
+                printf("Welcome to the 100m sprint records!\n");
+
+                //scanf to get the number of sprinters
+                //
+                printf("How many sprinters are now competing in this event: \n");
+                scanf("%d", &participants);
+                getchar(); //clear input buffer
+
+                //dynamically allocate memory for athletes
+                //
+                athletes = (struct athlete_data *)malloc(participants * sizeof(struct athlete_data));
+
+                //printf to let the user know how many records they will have to enter
+                //
+                printf("Please enter %d records: \n\n", participants);
+
+                //calling the function to enter athlete data
+                //
+                Enter_Athlete_Data(athletes, participants);
+            }
+
+            if (event_option == 4) //if user chooses 4
+            {
+                //printf to let the user know they are in the relay records
+                //
+                printf("Welcome to the 100m relay records!\n");
+
+                participants = 4; //fixed number for relay
+                athletes = (struct athlete_data *)malloc(participants * sizeof(struct athlete_data));
+
+                printf("Total number of athletes to be entered is %d\n", participants);
+
+                Enter_Athlete_Data(athletes, participants);
+            }
+
+            if (event_option == 5) //if user chooses 5
+            {
+                //printf to let the user know they are in the long jump records
+                //
+                printf("Welcome to the long jump records!\n");
+
+                participants = 2; //fixed number for long jump
+                athletes = (struct athlete_data *)malloc(participants * sizeof(struct athlete_data));
+
+                printf("Total number of athletes to be entered is %d\n", participants);
+
+                Enter_Athlete_Data(athletes, participants);
+            }
+
+            //calling paddy_checker to check if Paddy Jim O'Brien is competing
+            //
+            if (paddy_checker(athletes, participants))
+            {
+                printf("The legendary Paddy Jim O'Brien is competing!\n");
+            }
+            else
+            {
+                printf("The legendary Paddy Jim O'Brien is not competing.\n");
+            }
+
+            //freeing dynamically allocated memory
+            //
+            free(athletes);
+        }
+
+    } while (option != 2); //program will end if the user chooses 2
+
+    //ending the program
+    //
+    printf("Program terminated. Goodbye!\n");
+    return 0;
+
+} //end of main
+
+//function to enter athlete data
+//
+void Enter_Athlete_Data(struct athlete_data *athletes, int participants)
+{
+    //for loop to allow user to enter the desired number of participants
+    //
+    for (int i = 0; i < participants; i++)
+    { //beginning of for loop
+        printf("\nEntering data for athlete %d:\n", i + 1);
+
+        printf("Please enter athlete's first name: \n");
+        fgets(athletes[i].firstname, LENGTH, stdin);
+        athletes[i].firstname[strcspn(athletes[i].firstname, "\n")] = '\0';
+
+        printf("Please enter athlete's surname: \n");
+        fgets(athletes[i].surname, LENGTH, stdin);
+        athletes[i].surname[strcspn(athletes[i].surname, "\n")] = '\0';
+
+        printf("Please enter athlete's nationality: \n");
+        fgets(athletes[i].nationality, LENGTH, stdin);
+        athletes[i].nationality[strcspn(athletes[i].nationality, "\n")] = '\0';
+
+        printf("Please enter athlete's date of birth (dd mm yyyy): \n");
+        scanf("%d %d %d", &athletes[i].DOB.day, &athletes[i].DOB.month, &athletes[i].DOB.year);
+        getchar(); //clear input buffer
+
+        printf("Please enter athlete's height: \n");
+        fgets(athletes[i].height, LENGTH, stdin);
+        athletes[i].height[strcspn(athletes[i].height, "\n")] = '\0';
+
+        printf("Please enter athlete's weight: \n");
+        fgets(athletes[i].weight, LENGTH, stdin);
+        athletes[i].weight[strcspn(athletes[i].weight, "\n")] = '\0';
+
+        printf("Please enter athlete's event: \n");
+        fgets(athletes[i].event, LENGTH, stdin);
+        athletes[i].event[strcspn(athletes[i].event, "\n")] = '\0';
+    } //end of for loop
+} //end function
+
+//function to check if Paddy Jim O'Brien is competing
+//
+int paddy_checker(struct athlete_data *athletes, int participants)
+{
+    for (int i = 0; i < participants; i++)
+    {
+        if (strcmp(athletes[i].firstname, "Paddy") == 0 && strcmp(athletes[i].surname, "Jim O'Brien") == 0)
+        {
+            return 1; //Paddy is found
+        }
+    }
+    return 0; //Paddy is not found
+} //end function
